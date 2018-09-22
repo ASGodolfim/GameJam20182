@@ -2,26 +2,45 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bag : MonoBehaviour {
+public class Bag : MonoBehaviour
+{
 
     public GameObject[] bag = new GameObject[1];
+    public PlayerInteract PI;
 
-    public void AddItem(GameObject item){
+    bool itemAdded = false;
 
-        bool itemAdded = false;
-
+    public void AddItem(GameObject item)
+    {
+        //ver se pode ser guardado ou não
         for (int i = 0; i < bag.Length; i++)
         {
             if (bag[i] == null)
             {
                 bag[i] = item;
-                Debug.Log(item.name + "was added");
                 itemAdded = true;
-                break;
-                }
+                Debug.Log(item.name + "was added");
+                item.SendMessage("DoInteraction");
             }
-         if (!itemAdded){
-            Debug.Log("I cant carry anymore of those");
-         }
+            else
+            {
+                Debug.Log("I cant carry anymore of those");
+            }
+        }
+               
+    }
+    public bool Finditem(GameObject item)
+    {
+        //Achou o item
+        if (bag[0] == item)
+        {
+            bag[0] = null;
+            return true;
+        }
+        else
+        {
+            //não achou o item
+            return false;
+        }
     }
 }
